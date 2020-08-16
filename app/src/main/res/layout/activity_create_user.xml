@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateUserActivity">
+    tools:context=".Controller.CreateUserActivity">
 
     <EditText
         android:id="@+id/createUserNameText"
@@ -96,7 +96,7 @@
         android:layout_marginBottom="16dp"
         android:background="@color/colorPrimary"
         android:onClick="createUserClicked"
-        android:text="Button"
+        android:text="Create Account"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
