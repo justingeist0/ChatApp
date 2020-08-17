@@ -1,6 +1,7 @@
 package com.fantasma.chatapp.Services
 
 import android.graphics.Color
+import com.fantasma.chatapp.Controller.App
 import java.util.*
 
 object UserDataService {
@@ -37,9 +38,9 @@ object UserDataService {
         avatarName = ""
         email = ""
         name = ""
-        AuthServices.authToken = ""
-        AuthServices.userEmail = ""
-        AuthServices.isLoggedIn = false
+        App.prefs.authToken = ""
+        App.prefs.userEmail = ""
+        App.prefs.isLoggedIn = false
     }
 
 }

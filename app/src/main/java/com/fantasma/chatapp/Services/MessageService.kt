@@ -6,6 +6,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
+import com.fantasma.chatapp.Controller.App
 import com.fantasma.chatapp.Model.Channel
 import com.fantasma.chatapp.Utilities.URL_GET_CHANNELS
 import org.json.JSONException
@@ -14,7 +15,7 @@ object MessageService {
 
     val channels = ArrayList<Channel>()
 
-    fun getChannels(context: Context, complete: (Boolean) -> Unit) {
+    fun getChannels(complete: (Boolean) -> Unit) {
 
         val channelsRequest = object : JsonArrayRequest(Method.GET, URL_GET_CHANNELS, null, Response.Listener {response ->
 
@@ -46,10 +47,11 @@ object MessageService {
 
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
-                headers.put("Authorization", "Bearer ${AuthServices.authToken}")
+                headers.put("Authorization", "Bearer ${App.prefs.authToken}")
                 return headers
             }
         }
-        Volley.newRequestQueue(context).add(channelsRequest)
+
+        App.prefs.requestQueue.add(channelsRequest)
     }
 }

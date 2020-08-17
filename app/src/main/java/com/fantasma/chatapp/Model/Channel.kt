@@ -1,8 +1,6 @@
 package com.fantasma.chatapp.Model
 
-import androidx.lifecycle.ViewModel
-
-class Channel(val name: String, val description: String, val id: String) : ViewModel() {
+class Channel(val name: String, val description: String, val id: String) {
     override fun toString(): String {
         return "#$name"
     }

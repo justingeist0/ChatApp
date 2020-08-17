@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
             return;
         }
 
-        AuthServices.loginUser(this, email, password) {loginSuccess ->
+        AuthServices.loginUser(email, password) {loginSuccess ->
             if(loginSuccess){
                 AuthServices.findUserByEmail(this) {findSuccess ->
                     if(findSuccess) {
