@@ -56,7 +56,6 @@ class LoginActivity : AppCompatActivity() {
 
     fun errorToast() {
         Toast.makeText(this, "Something went wrong, please try again.", Toast.LENGTH_LONG).show()
-
         enableSpinner(false)
     }
 
@@ -74,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
         val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         if(inputManager.isAcceptingText) {
-            inputManager.hideSoftInputFromWindow(currentFocus.windowToken, 0)
+            inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
         }
     }
 
