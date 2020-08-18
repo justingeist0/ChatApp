@@ -1,4 +1,4 @@
-package com.fantasma.chatapp.Model
+package com.fantasma.chatapp.model
 
 class Message constructor(val message: String, val userName: String, val channelId: String,
                             val userAvatar: String, val userAvatarColor: String,

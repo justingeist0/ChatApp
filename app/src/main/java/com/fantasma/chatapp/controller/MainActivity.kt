@@ -1,5 +1,6 @@
-package com.fantasma.chatapp.Controller
+package com.fantasma.chatapp.controller
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -23,24 +24,25 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.fantasma.chatapp.Adapter.MessageAdapter
-import com.fantasma.chatapp.Model.Channel
-import com.fantasma.chatapp.Model.Message
+import com.fantasma.chatapp.adapter.MessageAdapter
+import com.fantasma.chatapp.model.Channel
+import com.fantasma.chatapp.model.Message
 import com.fantasma.chatapp.R
-import com.fantasma.chatapp.Services.AuthServices
-import com.fantasma.chatapp.Services.MessageService
-import com.fantasma.chatapp.Services.UserDataService
-import com.fantasma.chatapp.Utilities.BROADCAST_USER_DATA_CHANGE
-import com.fantasma.chatapp.Utilities.SOCKET_URL
+import com.fantasma.chatapp.services.AuthService
+import com.fantasma.chatapp.services.MessageService
+import com.fantasma.chatapp.services.UserDataService
+import com.fantasma.chatapp.utilities.BROADCAST_USER_DATA_CHANGE
+import com.fantasma.chatapp.utilities.SOCKET_URL
 import com.github.nkzawa.emitter.Emitter
 import com.github.nkzawa.socketio.client.IO
+import com.github.nkzawa.socketio.client.Socket
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val socket = IO.socket(SOCKET_URL)
+    private val socket: Socket = IO.socket(SOCKET_URL)
     lateinit var channelAdapter: ArrayAdapter<Channel>
     lateinit var messageAdapter: MessageAdapter
     var selectedChannel : Channel? = null
@@ -88,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if(App.prefs.isLoggedIn) {
-           AuthServices.findUserByEmail(this) {}
+           AuthService.findUserByEmail(this) {}
         }
     }
 
@@ -108,7 +110,7 @@ class MainActivity : AppCompatActivity() {
                     packageName)
                 userImageNavHeader.setImageResource(resourceId)
                 userImageNavHeader.setBackgroundColor(UserDataService.returnAvatarColor(UserDataService.avatarColor))
-                loginBtnNavHeader.text = "Logout"
+                loginBtnNavHeader.text = getString(R.string.logout)
 
                 MessageService.getChannels { complete ->
                     if(complete) {
@@ -124,7 +126,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateWithChannel() {
-        mainChannelName.text = "#${selectedChannel?.name}"
+        val channelText = "#${selectedChannel?.name}"
+        mainChannelName.text = channelText
 
         if (selectedChannel != null) {
             MessageService.getMessages(selectedChannel!!.id) { complete ->
@@ -152,14 +155,15 @@ class MainActivity : AppCompatActivity() {
             userEmailNavHeader.text = ""
             userImageNavHeader.setImageResource(R.drawable.profiledefault)
             userImageNavHeader.setBackgroundColor(Color.TRANSPARENT)
-            loginBtnNavHeader.text = "Login"
-            mainChannelName.text = "Please Log In"
+            loginBtnNavHeader.text = getString(R.string.login)
+            mainChannelName.text = getString(R.string.pleaseLogIn)
         } else {
             val loginIntent = Intent(this, LoginActivity::class.java)
             startActivity(loginIntent)
         }
     }
 
+    @SuppressLint("InflateParams")
     fun addChannelClicked(view: View) {
         if(App.prefs.isLoggedIn) {
             val builder = AlertDialog.Builder(this)
@@ -235,7 +239,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun hideKeyboard() {
+    private fun hideKeyboard() {
         val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         if(inputManager.isAcceptingText) {

@@ -1,16 +1,13 @@
-package com.fantasma.chatapp.Services
+package com.fantasma.chatapp.services
 
-import android.content.Context
 import android.util.Log
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.Volley
-import com.fantasma.chatapp.Controller.App
-import com.fantasma.chatapp.Model.Channel
-import com.fantasma.chatapp.Model.Message
-import com.fantasma.chatapp.Utilities.URL_GET_CHANNELS
-import com.fantasma.chatapp.Utilities.URL_GET_MESSAGES
+import com.fantasma.chatapp.controller.App
+import com.fantasma.chatapp.model.Channel
+import com.fantasma.chatapp.model.Message
+import com.fantasma.chatapp.utilities.URL_GET_CHANNELS
+import com.fantasma.chatapp.utilities.URL_GET_MESSAGES
 import org.json.JSONException
 
 object MessageService {
@@ -41,7 +38,7 @@ object MessageService {
             }
 
         }, Response.ErrorListener { error ->
-            Log.d("ERROR", "Could not retrieve channels")
+            Log.d("ERROR", "Could not retrieve channels: $error")
             complete(false)
         }) {
             override fun getBodyContentType(): String {
@@ -50,7 +47,7 @@ object MessageService {
 
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
-                headers.put("Authorization", "Bearer ${App.prefs.authToken}")
+                headers["Authorization"] = "Bearer ${App.prefs.authToken}"
                 return headers
             }
         }
@@ -68,14 +65,14 @@ object MessageService {
                 for(x in 0 until response.length()) {
                     val message = response.getJSONObject(x)
                     val messageBody = message.getString("messageBody")
-                    val channelId = message.getString("channelId")
+                    val messageChannelId = message.getString("channelId")
                     val id = message.getString("_id")
                     val userName = message.getString("userName")
                     val userAvatar = message.getString("userAvatar")
                     val userAvatarColor = message.getString("userAvatarColor")
                     val timeStamp = message.getString("timeStamp")
 
-                    val newMessage = Message(messageBody, userName, channelId, userAvatar, userAvatarColor, id, timeStamp)
+                    val newMessage = Message(messageBody, userName, messageChannelId, userAvatar, userAvatarColor, id, timeStamp)
                     this.messages.add(newMessage)
                 }
                 complete(true)
@@ -94,7 +91,7 @@ object MessageService {
 
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
-                headers.put("Authorization", "Bearer ${App.prefs.authToken}")
+                headers["Authorization"] = "Bearer ${App.prefs.authToken}"
                 return headers
             }
         }

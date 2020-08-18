@@ -12,4 +12,7 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="home_second">Home Second</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
+    <string name="pleaseLogIn">Please Log In</string>
 </resources>

@@ -1,7 +1,7 @@
-package com.fantasma.chatapp.Controller
+package com.fantasma.chatapp.controller
 
 import android.app.Application
-import com.fantasma.chatapp.Utilities.SharedPrefs
+import com.fantasma.chatapp.utilities.SharedPrefs
 
 class App : Application() {
 

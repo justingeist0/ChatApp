@@ -1,7 +1,7 @@
-package com.fantasma.chatapp.Services
+package com.fantasma.chatapp.services
 
 import android.graphics.Color
-import com.fantasma.chatapp.Controller.App
+import com.fantasma.chatapp.controller.App
 import java.util.*
 
 object UserDataService {

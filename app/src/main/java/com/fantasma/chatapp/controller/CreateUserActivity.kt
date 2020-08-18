@@ -1,4 +1,4 @@
-package com.fantasma.chatapp.Controller
+package com.fantasma.chatapp.controller
 
 import android.content.Intent
 import android.graphics.Color
@@ -8,14 +8,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.fantasma.chatapp.R
-import com.fantasma.chatapp.Services.AuthServices
-import com.fantasma.chatapp.Utilities.BROADCAST_USER_DATA_CHANGE
+import com.fantasma.chatapp.services.AuthService
+import com.fantasma.chatapp.utilities.BROADCAST_USER_DATA_CHANGE
 import kotlinx.android.synthetic.main.activity_create_user.*
 import java.util.*
 
 class CreateUserActivity : AppCompatActivity() {
-    var userAvatar = "profileDefault"
-    var avatarColor = "[0.5, 0.5, 0.5, 1]"
+    private var userAvatar = "profileDefault"
+    private var avatarColor = "[0.5, 0.5, 0.5, 1]"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,11 +65,11 @@ class CreateUserActivity : AppCompatActivity() {
             return
         }
 
-        AuthServices.registerUser(email, password) {registerSuccess ->
+        AuthService.registerUser(email, password) { registerSuccess ->
             if(registerSuccess) {
-                AuthServices.loginUser(email, password) {loginSuccess ->
+                AuthService.loginUser(email, password) { loginSuccess ->
                     if(loginSuccess) {
-                        AuthServices.createUser(userName, email, userAvatar, avatarColor) {createUserSuccess ->
+                        AuthService.createUser(userName, email, userAvatar, avatarColor) { createUserSuccess ->
                             if(createUserSuccess) {
 
                                 val userDataChange = Intent(BROADCAST_USER_DATA_CHANGE)
@@ -91,13 +91,13 @@ class CreateUserActivity : AppCompatActivity() {
         }
     }
 
-    fun errorToast() {
+    private fun errorToast() {
         Toast.makeText(this, "Something went wrong, please try again.", Toast.LENGTH_LONG).show()
 
         enableSpinner(false)
     }
 
-    fun enableSpinner(enable: Boolean) {
+    private fun enableSpinner(enable: Boolean) {
         if(enable) {
             createSpinner.visibility = View.VISIBLE
         } else {

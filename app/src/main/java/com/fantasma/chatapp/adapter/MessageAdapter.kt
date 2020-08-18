@@ -1,4 +1,4 @@
-package com.fantasma.chatapp.Adapter
+package com.fantasma.chatapp.adapter
 
 import android.content.Context
 import android.util.Log
@@ -8,15 +8,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.fantasma.chatapp.Model.Message
+import com.fantasma.chatapp.model.Message
 import com.fantasma.chatapp.R
-import com.fantasma.chatapp.Services.UserDataService
+import com.fantasma.chatapp.services.UserDataService
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MessageAdapter(val context: Context, val messages: ArrayList<Message>): RecyclerView.Adapter<MessageAdapter.ViewHolder>() {
+class MessageAdapter(val context: Context, private val messages: ArrayList<Message>): RecyclerView.Adapter<MessageAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.message_list_view, parent, false)
@@ -46,7 +46,8 @@ class MessageAdapter(val context: Context, val messages: ArrayList<Message>): Re
             messageBody.text = message.message
         }
 
-        fun returnDateString(isoString: String) : String {
+        @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+        private fun returnDateString(isoString: String) : String {
             val isoFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
             isoFormatter.timeZone = TimeZone.getTimeZone("UTC")
             var convertedDate = Date()
